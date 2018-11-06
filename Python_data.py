@@ -35,7 +35,6 @@ def update_target_rate():
     global target_hun
     global target_pl
     global target_cz
-    global target_ee
 
     try:
         df_target = pd.read_excel(directory /'target.xls', header=0)
@@ -98,6 +97,11 @@ def makeachart():
         df_euro = df_euro.sort_values('Time')
         df_cumsum = df_euro.sales_eur.cumsum()
         df_euro['cumsum'] = df_cumsum
+        df_euro['target'] = target_ee
+
+        #Create json file from the data
+        df_euro.to_json(path_or_buf = 'data.json')
+
         global sales
         sales = df_cumsum.tail(1)
         print(round(float(sales),2))
